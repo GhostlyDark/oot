@@ -37,8 +37,8 @@
 #include "fault.h"
 #include "sched.h"
 
-#define SCREEN_WIDTH  320
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH  640
+#define SCREEN_HEIGHT 480
 
 #define REGION_NULL 0
 #define REGION_US 1
@@ -95,9 +95,15 @@ typedef struct {
 
 typedef struct {
     /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
-    /* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
-    /* 0x0BF08 */ Gfx polyXluBuffer[0x800];
-    /* 0x0FF08 */ Gfx overlayBuffer[0x400];
+    //Enlarging the buffer manually:
+    ///* 0x00008 */ Gfx polyOpaBuffer[0x17E0];
+    Gfx polyOpaBuffer[0x27E0];
+    //Enlarging the buffer manually:
+    ///* 0x0BF08 */ Gfx polyXluBuffer[0x800];
+    Gfx polyXluBuffer[0xA00];
+    ///* 0x0FF08 */ Gfx overlayBuffer[0x400];
+    //Enlarging the buffer manually:
+    Gfx overlayBuffer [0xA00];
     /* 0x11F08 */ Gfx workBuffer[0x80];
     /* 0x11308 */ Gfx unusedBuffer[0x20];
     /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC

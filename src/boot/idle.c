@@ -58,7 +58,8 @@ void Idle_ThreadEntry(void* arg) {
     switch (osTvType) {
         case OS_TV_NTSC:
             D_80013960 = 2;
-            gViConfigMode = osViModeNtscLan1;
+            //gViConfigMode = osViModeNtscLan1;
+            gViConfigMode = osViModeNtscHan1;
             break;
 
         case OS_TV_MPAL:

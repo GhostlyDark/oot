@@ -35,6 +35,7 @@ extern OSPiHandle* __osPiTable;
 extern OSPiHandle* __osCurrentHandle[];
 extern OSTimer* __osTimerList;
 extern OSViMode osViModeNtscLan1;
+extern OSViMode osViModeNtscHan1;
 extern OSViMode osViModeMpalLan1;
 extern OSViContext* __osViCurr;
 extern OSViContext* __osViNext;

@@ -1238,11 +1238,11 @@ void Play_Draw(PlayState* this) {
 
                     this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
                     this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-                    func_800C1F20(&this->pauseBgPreRender, &sp70);
+                    //func_800C1F20(&this->pauseBgPreRender, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
                         this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                        func_800C20B4(&this->pauseBgPreRender, &sp70);
-                        R_PAUSE_MENU_MODE = 2;
+                        //func_800C20B4(&this->pauseBgPreRender, &sp70);
+                        R_PAUSE_MENU_MODE = 3;
                     } else {
                         gTrnsnUnkState = 2;
                     }

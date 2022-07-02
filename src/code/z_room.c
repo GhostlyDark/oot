@@ -236,6 +236,7 @@ s32 func_80096238(void* data) {
             osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
             bcopy(gZBuffer, data, sizeof(gZBuffer));
+            //bcopy(gZBuffer, data, 153600);
         } else {
             osSyncPrintf("失敗！なんで〜\n"); // "Failure! Why is it 〜"
         }
@@ -255,11 +256,11 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
     bg = (uObjBg*)(displayListHead + 1);
     gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
-    bg->b.imageW = width * 4;
-    bg->b.frameX = frameX * 4;
+    bg->b.imageW = width * 8;
+    bg->b.frameX = frameX * 8;
     bg->b.imageY = 0;
-    bg->b.imageH = height * 4;
-    bg->b.frameY = frameY * 4;
+    bg->b.imageH = height * 8;
+    bg->b.frameY = frameY * 8;
     bg->b.imagePtr = source;
     bg->b.imageLoad = G_BGLT_LOADTILE;
     bg->b.imageFmt = fmt;
@@ -275,16 +276,16 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
     }
 
     if ((fmt == G_IM_FMT_RGBA) && (SREG(26) == 0)) {
-        bg->b.frameW = width * 4;
-        bg->b.frameH = height * 4;
+        bg->b.frameW = width * 8;
+        bg->b.frameH = height * 8;
         guS2DInitBg(bg);
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
 
     } else {
-        bg->s.frameW = width * 4;
-        bg->s.frameH = height * 4;
+        bg->s.frameW = width * 8;
+        bg->s.frameH = height * 8;
         bg->s.scaleW = 1024;
         bg->s.scaleH = 1024;
         bg->s.imageYorig = bg->b.imageY;
