@@ -328,7 +328,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
         tempZ = player->actor.world.pos.z;
         tempX /= R_COMPASS_SCALE_X;
         tempZ /= R_COMPASS_SCALE_Y;
-        Matrix_Translate((R_COMPASS_OFFSET_X + tempX) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ) / 10.0f, 0.0f, MTXMODE_NEW);
+        Matrix_Translate((R_COMPASS_OFFSET_X + 1600 + tempX) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ - 1200) / 10.0f, 0.0f, MTXMODE_NEW);
         Matrix_Scale(0.4f, 0.4f, 0.4f, MTXMODE_APPLY);
         Matrix_RotateX(-1.6f, MTXMODE_APPLY);
         tempX = (0x7FFF - player->actor.shape.rot.y) / 0x400;
@@ -343,7 +343,7 @@ void Minimap_DrawCompassIcons(PlayState* play) {
         tempZ = sPlayerInitialPosZ;
         tempX /= R_COMPASS_SCALE_X;
         tempZ /= R_COMPASS_SCALE_Y;
-        Matrix_Translate((R_COMPASS_OFFSET_X + tempX) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ) / 10.0f, 0.0f, MTXMODE_NEW);
+        Matrix_Translate((R_COMPASS_OFFSET_X + tempX + 1600 ) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ - 1200) / 10.0f, 0.0f, MTXMODE_NEW);
         Matrix_Scale(VREG(9) / 100.0f, VREG(9) / 100.0f, VREG(9) / 100.0f, MTXMODE_APPLY);
         Matrix_RotateX(VREG(52) / 10.0f, MTXMODE_APPLY);
         Matrix_RotateY(sPlayerInitialDirection / 10.0f, MTXMODE_APPLY);
@@ -388,8 +388,8 @@ void Minimap_Draw(PlayState* play) {
                                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                                G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(OVERLAY_DISP++, R_DGN_MINIMAP_X << 2, R_DGN_MINIMAP_Y << 2,
-                                            (R_DGN_MINIMAP_X + 96) << 2, (R_DGN_MINIMAP_Y + 85) << 2, G_TX_RENDERTILE,
+                        gSPTextureRectangle(OVERLAY_DISP++, 320 + R_DGN_MINIMAP_X << 2, 240 + R_DGN_MINIMAP_Y << 2,
+                                            (320 + R_DGN_MINIMAP_X + 96) << 2, (240 + R_DGN_MINIMAP_Y + 85) << 2, G_TX_RENDERTILE,
                                             0, 0, 1 << 10, 1 << 10);
                     }
 
@@ -448,9 +448,9 @@ void Minimap_Draw(PlayState* play) {
                                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                    gSPTextureRectangle(OVERLAY_DISP++, R_OW_MINIMAP_X << 2, R_OW_MINIMAP_Y << 2,
-                                        (R_OW_MINIMAP_X + gMapData->owMinimapWidth[mapIndex]) << 2,
-                                        (R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
+                    gSPTextureRectangle(OVERLAY_DISP++, 320 + R_OW_MINIMAP_X << 2, 240 + R_OW_MINIMAP_Y << 2,
+                                        (320 + R_OW_MINIMAP_X + gMapData->owMinimapWidth[mapIndex]) << 2,
+                                        (240 + R_OW_MINIMAP_Y + gMapData->owMinimapHeight[mapIndex]) << 2, G_TX_RENDERTILE, 0,
                                         0, 1 << 10, 1 << 10);
 
                     if (((play->sceneNum != SCENE_SPOT01) && (play->sceneNum != SCENE_SPOT04) &&

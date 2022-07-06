@@ -237,16 +237,30 @@ void Message_DrawTextChar(PlayState* play, void* textureImage, Gfx** p) {
     // Draw drop shadow
     if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_NO_SHADOW) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, msgCtx->textColorAlpha);
-        gSPTextureRectangle(gfx++, (x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
-                            (x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
+		if(msgCtx->textBoxType != TEXTBOX_TYPE_OCARINA){
+        gSPTextureRectangle(gfx++, (160 + x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
+                            (160 + x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
                             (y + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0, sCharTexScale,
                             sCharTexScale);
+						}
+		else{
+        gSPTextureRectangle(gfx++, (160 + x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (200 + y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
+                            (160 + x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
+                            (200 + y + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0, sCharTexScale,
+                            sCharTexScale);	
+		}
     }
 
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->textColorR, msgCtx->textColorG, msgCtx->textColorB, msgCtx->textColorAlpha);
-    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
+    if(msgCtx->textBoxType != TEXTBOX_TYPE_OCARINA){
+    gSPTextureRectangle(gfx++, 160 + x << 2, y << 2, (160 + x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
                         sCharTexScale, sCharTexScale);
+					}
+	else{
+    gSPTextureRectangle(gfx++, 160 + x << 2, 200 + y << 2, (160 + x + sCharTexSize) << 2, (200 + y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
+                        sCharTexScale, sCharTexScale);
+	}
     *p = gfx;
 }
 
@@ -763,8 +777,8 @@ u16 Message_DrawItemIcon(PlayState* play, u16 itemId, Gfx** p, u16 i) {
                             32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
     }
-    gSPTextureRectangle(gfx++, (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
-                        (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_SIZE) << 2,
+    gSPTextureRectangle(gfx++, (160 + msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
+                        (160 + msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_SIZE) << 2,
                         (R_TEXTBOX_ICON_YPOS + R_TEXTBOX_ICON_SIZE) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     gDPPipeSync(gfx++);
     gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
@@ -1942,9 +1956,16 @@ void Message_DrawTextBox(PlayState* play, Gfx** p) {
                                G_TX_NOLOD, G_TX_NOLOD);
     }
 
+	if(msgCtx->textBoxType != TEXTBOX_TYPE_OCARINA){
     gSPTextureRectangle(gfx++, R_TEXTBOX_X << 2, R_TEXTBOX_Y << 2, (R_TEXTBOX_X + R_TEXTBOX_WIDTH) << 2,
                         (R_TEXTBOX_Y + R_TEXTBOX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0, R_TEXTBOX_TEXWIDTH << 1,
                         R_TEXTBOX_TEXHEIGHT << 1);
+					}
+	else{
+    gSPTextureRectangle(gfx++, 160 + R_TEXTBOX_X << 2, 200 + R_TEXTBOX_Y << 2, 160 + (R_TEXTBOX_X + R_TEXTBOX_WIDTH) << 2,
+                        200 + (R_TEXTBOX_Y + R_TEXTBOX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0, R_TEXTBOX_TEXWIDTH << 1,
+                        R_TEXTBOX_TEXHEIGHT << 1);
+	}
 
     // Draw treble clef
     if (msgCtx->textBoxType == TEXTBOX_TYPE_OCARINA) {
@@ -1954,8 +1975,8 @@ void Message_DrawTextBox(PlayState* play, Gfx** p) {
         gDPSetPrimColor(gfx++, 0, 0, 255, 100, 0, 255);
         gDPLoadTextureBlock_4b(gfx++, gOcarinaTrebleClefTex, G_IM_FMT_I, 16, 32, 0, G_TX_MIRROR, G_TX_MIRROR,
                                G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, R_TEXTBOX_CLEF_XPOS << 2, R_TEXTBOX_CLEF_YPOS << 2, (R_TEXTBOX_CLEF_XPOS + 16) << 2,
-                            (R_TEXTBOX_CLEF_YPOS + 32) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(gfx++, 130 + R_TEXTBOX_CLEF_XPOS << 2, 200 + R_TEXTBOX_CLEF_YPOS << 2, 130 + (R_TEXTBOX_CLEF_XPOS + 16) << 2,
+                            200 + (R_TEXTBOX_CLEF_YPOS + 32) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     }
 
     *p = gfx;
@@ -2054,7 +2075,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
             case MSGMODE_TEXT_AWAIT_INPUT:
             case MSGMODE_TEXT_AWAIT_NEXT:
                 Message_DrawText(play, &gfx);
-                Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS, R_TEXTBOX_END_YPOS);
+                Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS + 160, R_TEXTBOX_END_YPOS);
                 break;
             case MSGMODE_OCARINA_STARTING:
             case MSGMODE_SONG_DEMONSTRATION_STARTING:
@@ -2849,11 +2870,11 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                 switch (msgCtx->textboxEndType) {
                     case TEXTBOX_ENDTYPE_2_CHOICE:
                         Message_HandleChoiceSelection(play, 1);
-                        Message_DrawTextboxIcon(play, &gfx, msgCtx->textPosX, msgCtx->textPosY);
+                        Message_DrawTextboxIcon(play, &gfx, msgCtx->textPosX + 160, msgCtx->textPosY);
                         break;
                     case TEXTBOX_ENDTYPE_3_CHOICE:
                         Message_HandleChoiceSelection(play, 2);
-                        Message_DrawTextboxIcon(play, &gfx, msgCtx->textPosX, msgCtx->textPosY);
+                        Message_DrawTextboxIcon(play, &gfx, msgCtx->textPosX + 160, msgCtx->textPosY);
                         break;
                     case TEXTBOX_ENDTYPE_PERSISTENT:
                         if (msgCtx->textId >= 0x6D && msgCtx->textId < 0x73) {
@@ -2866,7 +2887,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                         break;
                     case TEXTBOX_ENDTYPE_EVENT:
                     default:
-                        Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS, R_TEXTBOX_END_YPOS);
+                        Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS + 160, R_TEXTBOX_END_YPOS);
                     case TEXTBOX_ENDTYPE_FADING:
                         break;
                 }
@@ -2899,10 +2920,10 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                         G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                    gSPTextureRectangle(gfx++, notePosX << 2,
-                                        R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonsIndex[i]) << 2,
-                                        (notePosX + 16) << 2,
-                                        (R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonsIndex[i]) + 16) << 2,
+                    gSPTextureRectangle(gfx++, (160 + notePosX) << 2,
+                                        (R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonsIndex[i]) + 200) << 2,
+                                        (160 + notePosX + 16) << 2,
+                                        (R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonsIndex[i]) + 16 + 200) << 2,
                                         G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
                 }
             }
@@ -2937,9 +2958,9 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                                         G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                    gSPTextureRectangle(gfx++, notePosX << 2, R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIndexBuf[i]) << 2,
-                                        (notePosX + 16) << 2,
-                                        (R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIndexBuf[i]) + 16) << 2, G_TX_RENDERTILE,
+                    gSPTextureRectangle(gfx++, (160 + notePosX) << 2, (R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIndexBuf[i])+200) << 2,
+                                        (160 + notePosX + 16) << 2,
+                                        (R_OCARINA_BUTTONS_YPOS(sOcarinaButtonIndexBuf[i]) + 16 + 200) << 2, G_TX_RENDERTILE,
                                         0, 0, 1 << 10, 1 << 10);
                 }
             }
@@ -3029,16 +3050,20 @@ void Message_Draw(PlayState* play) {
 
 void Message_Update(PlayState* play) {
     static s16 sTextboxXPositions[] = {
-        34, 34, 34, 34, 34, 34,
+        //34, 34, 34, 34, 34, 34,
+        194, 194, 194, 194, 194, 194,
     };
     static s16 sTextboxMidYPositions[] = {
-        142, 142, 142, 142, 174, 142,
+        //142, 142, 142, 142, 174, 142,
+        362, 362, 362, 362, 362, 362,
     };
     static s16 sTextboxUpperYPositions[] = {
-        38, 38, 38, 38, 174, 38,
+        //38, 38, 38, 38, 174, 38,
+        362, 362, 362, 362, 362, 362,
     };
     static s16 sTextboxLowerYPositions[] = {
-        90, 90, 90, 90, 174, 90,
+        //90, 90, 90, 90, 174, 90,
+        362, 362, 362, 362, 362, 362,
     };
     static s16 sTextboxEndIconYOffset[] = {
         59, 59, 59, 59, 34, 59,
@@ -3155,7 +3180,8 @@ void Message_Update(PlayState* play) {
                     }
                 }
 
-                R_TEXTBOX_X_TARGET = sTextboxXPositions[var];
+                //R_TEXTBOX_X_TARGET = sTextboxXPositions[var];
+                R_TEXTBOX_X_TARGET = sTextboxXPositions[0];
                 R_TEXTBOX_END_YPOS = sTextboxEndIconYOffset[var] + R_TEXTBOX_Y_TARGET;
                 R_TEXT_CHOICE_YPOS(0) = R_TEXTBOX_Y_TARGET + 20;
                 R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 32;

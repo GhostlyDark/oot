@@ -90,9 +90,25 @@ void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
         dst[13] = src[13];
         dst[14] = src[14];
         dst[15] = src[15];
+        dst[16] = src[16];
+        //dst[17] = src[17];
+        //dst[18] = src[18];
+        //dst[19] = src[19];
+        //dst[20] = src[20];
+        //dst[21] = src[21];
+        //dst[22] = src[22];
+        //dst[23] = src[23];
+        //dst[24] = src[24];
+        //dst[25] = src[25];
+        //dst[26] = src[26];
+        //dst[27] = src[27];
+        //dst[28] = src[28];
+        //dst[29] = src[29];
+        //dst[30] = src[30];
+        //dst[31] = src[31];        
 
         src += 16;
-        dst += SCREEN_WIDTH;
+        dst += 320;
     }
 }
 
@@ -243,6 +259,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
     OSTime diff;
     OSTime time;
     OSTime curTime;
+    u32 jcount = 0;
 
     workBuff = work;
 
@@ -341,8 +358,10 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
         } else {
             Jpeg_ScheduleDecoderTask(&ctx);
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
-
+			//jcount = ARRAY_COUNT(workBuff->data);
             for (j = 0; j < ARRAY_COUNT(workBuff->data); j++) {
+            //for (j = 0; j < jcount+1; j++) {
+				//osSyncPrintf("ARRAY_COUNT(workBuff->data = %d\n", ARRAY_COUNT(workBuff->data));
                 Jpeg_CopyToZbuffer(workBuff->data[j], zbuffer, x, y);
                 x++;
 

@@ -4,6 +4,7 @@
 void Room_Draw0(PlayState* play, Room* room, u32 flags);
 void Room_Draw2(PlayState* play, Room* room, u32 flags);
 void Room_Draw1(PlayState* play, Room* room, u32 flags);
+PlayState* gplay;
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -217,7 +218,6 @@ void Room_Draw2(PlayState* play, Room* room, u32 flags) {
 
 s32 func_80096238(void* data) {
     OSTime time;
-
     if (*(u32*)data == JPEG_MARKER) {
         osSyncPrintf("JPEGデータを展開します\n");        // "Expanding jpeg data"
         osSyncPrintf("JPEGデータアドレス %08x\n", data); // "Jpeg data address %08x"
@@ -225,7 +225,9 @@ s32 func_80096238(void* data) {
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
-        if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+        //if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+		if (!Jpeg_Decode(data, jpeg_buffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+			osSyncPrintf("YOU SHOULDNT BE SPAMMING THE DEBUG CONSOLE!\n");
             time = osGetTime() - time;
 
             // "Success... I think. time = %6.3f ms"
@@ -235,13 +237,14 @@ s32 func_80096238(void* data) {
             // "If the original buffer size isn't at least 150kb, it will be out of control."
             osSyncPrintf("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n");
 
-            bcopy(gZBuffer, data, sizeof(gZBuffer));
+			//bcopy(gZBuffer, data, sizeof(gZBuffer));
+            bcopy(jpeg_buffer, data, sizeof(jpeg_buffer));
             //bcopy(gZBuffer, data, 153600);
         } else {
             osSyncPrintf("失敗！なんで〜\n"); // "Failure! Why is it 〜"
         }
+        
     }
-
     return 0;
 }
 
@@ -256,12 +259,13 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
     bg = (uObjBg*)(displayListHead + 1);
     gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
-    bg->b.imageW = width * 8;
-    bg->b.frameX = frameX * 8;
+    bg->b.imageW = width * 4;
+    bg->b.frameX = frameX * 4;
     bg->b.imageY = 0;
-    bg->b.imageH = height * 8;
-    bg->b.frameY = frameY * 8;
+    bg->b.imageH = height * 4;
+    bg->b.frameY = frameY * 4;
     bg->b.imagePtr = source;
+    //bg->b.imagePtr = jpeg_buffer;
     bg->b.imageLoad = G_BGLT_LOADTILE;
     bg->b.imageFmt = fmt;
     bg->b.imageSiz = siz;
@@ -276,18 +280,33 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
     }
 
     if ((fmt == G_IM_FMT_RGBA) && (SREG(26) == 0)) {
-        bg->b.frameW = width * 8;
-        bg->b.frameH = height * 8;
+        /*bg->b.frameW = width * 4;
+        bg->b.frameH = height * 4;
         guS2DInitBg(bg);
         gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
-
+        */
+        bg->s.frameW = width * 8;
+        bg->s.frameH = height * 8;
+        bg->s.scaleW = 512;
+        bg->s.scaleH = 512;
+        bg->s.imageYorig = bg->b.imageY;
+        gDPSetOtherMode(displayListHead++,
+                        mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
+                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                        G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
+                            GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
+                            GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
+        gDPSetCombineLERP(displayListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
+        gSPObjRenderMode(displayListHead++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);        
+		gSPBgRect1Cyc(displayListHead++, bg);
+		//osSyncPrintf("Background is decoded at %08x \n", bg);
     } else {
         bg->s.frameW = width * 8;
         bg->s.frameH = height * 8;
-        bg->s.scaleW = 1024;
-        bg->s.scaleH = 1024;
+        bg->s.scaleW = 512;
+        bg->s.scaleH = 512;
         bg->s.imageYorig = bg->b.imageY;
         gDPSetOtherMode(displayListHead++,
                         mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
@@ -316,6 +335,7 @@ void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 628);
 
+	gplay = play;
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     meshHeader1Single = &room->meshHeader->meshHeader1Single;
@@ -405,6 +425,7 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 752);
 
+	gplay = play;
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     meshHeader1Multi = &room->meshHeader->meshHeader1Multi;
