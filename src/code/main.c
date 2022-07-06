@@ -25,6 +25,12 @@ AudioMgr gAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
+
+OSTime gLastOSTime = 0;
+float gFrameTime = 0.0f;
+u16 gFrames = 0;
+u16 gFPS = 0;
+
 void Main_LogSystemHeap(void) {
     osSyncPrintf(VT_FGCOL(GREEN));
     // "System heap size% 08x (% dKB) Start address% 08x"

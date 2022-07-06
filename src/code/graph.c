@@ -3,12 +3,19 @@
 
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
+#define SECONDS_PER_CYCLE 0.00000002133f
 
 OSTime sGraphUpdateTime;
 OSTime sGraphSetTaskTime;
 FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
+
+
+void calculate_frameTime_from_OSTime(OSTime diff){
+	gFrameTime += diff * SECONDS_PER_CYCLE;
+	gFrames++;
+}
 
 UCodeInfo D_8012D230[3] = {
     { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
@@ -427,8 +434,17 @@ void Graph_ThreadEntry(void* arg0) {
         }
         GameState_Init(gameState, ovl->init, &gfxCtx);
 
-        while (GameState_IsRunning(gameState)) {
+        while (GameState_IsRunning(gameState)) {		
+			OSTime newTime = osGetTime();
             Graph_Update(&gfxCtx, gameState);
+            calculate_frameTime_from_OSTime(newTime - gLastOSTime);
+            if(gFrameTime >= 1.0f){
+				gFPS = gFrames;
+				gFrames = 0;
+				gFrameTime -= 1.0f;
+			}
+			osSyncPrintf("FPS = %d\n", gFPS);
+			gLastOSTime = newTime;
         }
 
         nextOvl = Graph_GetNextGameState(gameState);

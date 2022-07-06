@@ -226,4 +226,10 @@ extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 extern u8 gSystemHeap[];
 
+
+extern OSTime gLastOSTime;
+extern float gFrameTime;
+extern u16 gFrames;
+extern u16 gFPS;
+
 #endif

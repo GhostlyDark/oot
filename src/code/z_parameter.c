@@ -3054,6 +3054,31 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     View_ApplyOrthoToOverlay(&interfaceCtx->view);
 }
 
+void FPS_draw(PlayState* play){
+	GfxPrint printer;
+	Gfx* gfx;
+	
+	OPEN_DISPS(play->state.gfxCtx, "../z_parameter.c", 3061);
+	gfx = POLY_OPA_DISP + 1;
+	gSPDisplayList(OVERLAY_DISP++, gfx);
+	
+	GfxPrint_Init(&printer);
+	GfxPrint_Open(&printer, gfx);
+	
+	GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+	GfxPrint_SetPos(&printer, 3, 7);
+	GfxPrint_Printf(&printer, "FPS = %d", gFPS);
+	
+	gfx = GfxPrint_Close(&printer);
+	GfxPrint_Destroy(&printer);
+	
+	gSPEndDisplayList(gfx++);
+	gSPBranchList(POLY_OPA_DISP, gfx);
+	POLY_OPA_DISP = gfx;
+	
+	CLOSE_DISPS(play->state.gfxCtx, "../z_parameter.c", 3079);
+}
+
 void Interface_Draw(PlayState* play) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
@@ -3096,6 +3121,7 @@ void Interface_Draw(PlayState* play) {
         Interface_InitVertices(play);
         func_8008A994(interfaceCtx);
         Health_DrawMeter(play);
+        FPS_draw(play);
 
         Gfx_SetupDL_39Overlay(play->state.gfxCtx);
 
