@@ -81,9 +81,9 @@ void OceffWipe3_Draw(Actor* thisx, PlayState* play) {
     eye = GET_ACTIVE_CAM(play)->eye;
     quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
     if (this->counter < 32) {
-        z = Math_SinS(this->counter << 9) * 1330;
+        z = Math_SinS(this->counter << 9) * 1250;
     } else {
-        z = 1330;
+        z = 1250;
     }
 
     vtxPtr = sFrustumVtx;
