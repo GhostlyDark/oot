@@ -430,15 +430,15 @@ void Message_DrawTextChar(PlayState* play, void* textureImage, Gfx** p) {
     // Draw drop shadow
     if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_NO_SHADOW) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, msgCtx->textColorAlpha);
-        gSPTextureRectangle(gfx++, (x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
-                            (x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
+        gSPTextureRectangle(gfx++, (52 + x + R_TEXT_DROP_SHADOW_OFFSET) << 2, (y + R_TEXT_DROP_SHADOW_OFFSET) << 2,
+                            (52 + x + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2,
                             (y + R_TEXT_DROP_SHADOW_OFFSET + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0, sCharTexScale,
                             sCharTexScale);
     }
 
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->textColorR, msgCtx->textColorG, msgCtx->textColorB, msgCtx->textColorAlpha);
-    gSPTextureRectangle(gfx++, x << 2, y << 2, (x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
+    gSPTextureRectangle(gfx++, 52 + x << 2, y << 2, (52 + x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
                         sCharTexScale, sCharTexScale);
     *p = gfx;
 }
@@ -1031,8 +1031,8 @@ u16 Message_DrawItemIcon(PlayState* play, u16 itemId, Gfx** p, u16 i) {
                             ITEM_ICON_WIDTH, ITEM_ICON_HEIGHT, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
-    gSPTextureRectangle(gfx++, (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
-                        (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_DIMENSION) << 2,
+    gSPTextureRectangle(gfx++, (52 + msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
+                        (52 + msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_DIMENSION) << 2,
                         (R_TEXTBOX_ICON_YPOS + R_TEXTBOX_ICON_DIMENSION) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     gDPPipeSync(gfx++);
     gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
@@ -3021,7 +3021,7 @@ void Message_DrawTextBox(PlayState* play, Gfx** p) {
         gDPSetPrimColor(gfx++, 0, 0, 255, 100, 0, 255);
         gDPLoadTextureBlock_4b(gfx++, gOcarinaTrebleClefTex, G_IM_FMT_I, 16, 32, 0, G_TX_MIRROR, G_TX_MIRROR,
                                G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, R_TEXTBOX_CLEF_XPOS << 2, R_TEXTBOX_CLEF_YPOS << 2, (R_TEXTBOX_CLEF_XPOS + 16) << 2,
+        gSPTextureRectangle(gfx++, 42 + R_TEXTBOX_CLEF_XPOS << 2, R_TEXTBOX_CLEF_YPOS << 2, 42 + (R_TEXTBOX_CLEF_XPOS + 16) << 2,
                             (R_TEXTBOX_CLEF_YPOS + 32) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     }
 
@@ -3134,7 +3134,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
             case MSGMODE_TEXT_AWAIT_INPUT:
             case MSGMODE_TEXT_AWAIT_NEXT:
                 DRAW_TEXT(play, &gfx, sTextIsCredits);
-                Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS, R_TEXTBOX_END_YPOS);
+                Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS + 52, R_TEXTBOX_END_YPOS);
                 break;
             case MSGMODE_OCARINA_STARTING:
             case MSGMODE_SONG_DEMONSTRATION_STARTING:
@@ -3953,7 +3953,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                         break;
                     case TEXTBOX_ENDTYPE_EVENT:
                     default:
-                        Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS, R_TEXTBOX_END_YPOS);
+                        Message_DrawTextboxIcon(play, &gfx, R_TEXTBOX_END_XPOS + 52, R_TEXTBOX_END_YPOS);
                     case TEXTBOX_ENDTYPE_FADING:
                         break;
                 }

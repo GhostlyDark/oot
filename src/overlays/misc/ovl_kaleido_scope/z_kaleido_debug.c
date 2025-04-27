@@ -13,18 +13,18 @@
 
 // Positions of each input section in the editor
 static u16 sSectionPositions[][2] = {
-    { 64, 15 },   { 144, 15 },  { 170, 15 },  { 78, 35 },   { 104, 35 },  { 130, 35 },  { 156, 35 },  { 182, 35 },
-    { 208, 35 },  { 78, 50 },   { 104, 50 },  { 130, 50 },  { 156, 50 },  { 182, 50 },  { 208, 50 },  { 78, 65 },
-    { 104, 65 },  { 130, 65 },  { 156, 65 },  { 182, 65 },  { 208, 65 },  { 78, 80 },   { 104, 80 },  { 130, 80 },
-    { 156, 80 },  { 182, 80 },  { 208, 80 },  { 78, 98 },   { 88, 98 },   { 98, 98 },   { 108, 98 },  { 118, 98 },
-    { 128, 98 },  { 138, 98 },  { 148, 98 },  { 158, 98 },  { 168, 98 },  { 178, 98 },  { 188, 98 },  { 198, 98 },
-    { 208, 98 },  { 218, 98 },  { 228, 98 },  { 238, 98 },  { 78, 115 },  { 90, 115 },  { 102, 115 }, { 114, 115 },
-    { 126, 115 }, { 138, 115 }, { 150, 115 }, { 162, 115 }, { 202, 115 }, { 214, 115 }, { 226, 115 }, { 238, 115 },
-    { 78, 132 },  { 90, 132 },  { 102, 132 }, { 114, 132 }, { 126, 132 }, { 138, 132 }, { 150, 132 }, { 162, 132 },
-    { 174, 132 }, { 186, 132 }, { 198, 132 }, { 210, 132 }, { 78, 149 },  { 90, 149 },  { 102, 149 }, { 114, 149 },
-    { 126, 149 }, { 138, 149 }, { 78, 166 },  { 90, 166 },  { 102, 166 }, { 114, 166 }, { 126, 166 }, { 138, 166 },
-    { 150, 166 }, { 162, 166 }, { 174, 166 }, { 186, 166 }, { 198, 166 }, { 210, 166 }, { 210, 149 }, { 222, 149 },
-    { 234, 149 }, { 78, 185 },  { 90, 185 },  { 145, 185 }, { 210, 185 },
+    { 116, 15 },  { 192, 15 },  { 222, 15 },  { 130, 35 },  { 156, 35 },  { 182, 35 },  { 208, 35 },  { 234, 35 },
+    { 260, 35 },  { 130, 50 },  { 156, 50 },  { 182, 50 },  { 208, 50 },  { 234, 50 },  { 260, 50 },  { 130, 65 },
+    { 156, 65 },  { 182, 65 },  { 208, 65 },  { 234, 65 },  { 260, 65 },  { 130, 80 },  { 156, 80 },  { 182, 80 },
+    { 208, 80 },  { 234, 80 },  { 260, 80 },  { 130, 98 },  { 140, 98 },  { 150, 98 },  { 160, 98 },  { 170, 98 },
+    { 180, 98 },  { 190, 98 },  { 200, 98 },  { 210, 98 },  { 220, 98 },  { 230, 98 },  { 240, 98 },  { 250, 98 },
+    { 260, 98 },  { 270, 98 },  { 280, 98 },  { 290, 98 },  { 130, 115 }, { 142, 115 }, { 154, 115 }, { 166, 115 },
+    { 178, 115 }, { 190, 115 }, { 202, 115 }, { 214, 115 }, { 254, 115 }, { 266, 115 }, { 278, 115 }, { 290, 115 },
+    { 130, 132 }, { 142, 132 }, { 154, 132 }, { 166, 132 }, { 178, 132 }, { 190, 132 }, { 202, 132 }, { 214, 132 },
+    { 226, 132 }, { 238, 132 }, { 250, 132 }, { 262, 132 }, { 130, 149 }, { 142, 149 }, { 154, 149 }, { 166, 149 },
+    { 178, 149 }, { 190, 149 }, { 130, 166 }, { 142, 166 }, { 154, 166 }, { 166, 166 }, { 178, 166 }, { 190, 166 },
+    { 202, 166 }, { 214, 166 }, { 226, 166 }, { 238, 166 }, { 250, 166 }, { 262, 166 }, { 262, 149 }, { 274, 149 },
+    { 286, 149 }, { 130, 185 }, { 142, 185 }, { 197, 185 }, { 262, 185 },
 };
 
 // First section of each row in the editor (starting from the top)
@@ -51,38 +51,38 @@ void KaleidoScope_DrawDebugEditorText(Gfx** gfxP) {
     GfxPrint_Init(&printer);
     GfxPrint_Open(&printer, *gfxP);
 
-    GfxPrint_SetPos(&printer, 4, 2);
+    GfxPrint_SetPos(&printer, 10, 2);
     GfxPrint_SetColor(&printer, 255, 60, 0, 255);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ﾙﾋﾟｰ"); // "Rupee"
-    GfxPrint_SetPos(&printer, 15, 2);
+    GfxPrint_SetPos(&printer, 21, 2);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ﾊｰﾄ"); // "Heart"
-    GfxPrint_SetPos(&printer, 26, 3);
+    GfxPrint_SetPos(&printer, 32, 3);
     GfxPrint_Printf(&printer, "%s", "/4");
-    GfxPrint_SetPos(&printer, 4, 5);
+    GfxPrint_SetPos(&printer, 10, 5);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ｱｲﾃﾑ"); // "Item"
-    GfxPrint_SetPos(&printer, 4, 13);
+    GfxPrint_SetPos(&printer, 10, 13);
     GfxPrint_Printf(&printer, "%s", "KEY");
-    GfxPrint_SetPos(&printer, 4, 15);
+    GfxPrint_SetPos(&printer, 10, 15);
     GfxPrint_Printf(&printer, "%s", GFXP_HIRAGANA "ｿｳﾋﾞ"); // "Equipment"
-    GfxPrint_SetPos(&printer, 23, 14);
+    GfxPrint_SetPos(&printer, 29, 14);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ｹﾝ"); // "Sword"
-    GfxPrint_SetPos(&printer, 23, 15);
+    GfxPrint_SetPos(&printer, 29, 15);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ﾀﾃ"); // "Shield"
-    GfxPrint_SetPos(&printer, 4, 17);
+    GfxPrint_SetPos(&printer, 10, 17);
     GfxPrint_Printf(&printer, "%s", "MAP");
-    GfxPrint_SetPos(&printer, 4, 19);
+    GfxPrint_SetPos(&printer, 10, 19);
     GfxPrint_Printf(&printer, "%s", GFXP_HIRAGANA "ﾌｳｲﾝ"); // "Seal"
-    GfxPrint_SetPos(&printer, 20, 19);
+    GfxPrint_SetPos(&printer, 26, 19);
     GfxPrint_Printf(&printer, "%s", GFXP_HIRAGANA "ｾｲﾚｲｾｷ"); // "Spiritual Stone"
-    GfxPrint_SetPos(&printer, 4, 21);
+    GfxPrint_SetPos(&printer, 10, 21);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ｵｶﾘﾅ"); // "Ocarina"
-    GfxPrint_SetPos(&printer, 4, 24);
+    GfxPrint_SetPos(&printer, 10, 24);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ｺﾚｸﾄ"); // "Collect"
-    GfxPrint_SetPos(&printer, 14, 24);
+    GfxPrint_SetPos(&printer, 20, 24);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ｷﾝｽﾀ"); // "Skulltula"
-    GfxPrint_SetPos(&printer, 23, 24);
+    GfxPrint_SetPos(&printer, 29, 24);
     GfxPrint_Printf(&printer, "%s", GFXP_KATAKANA "ｶｹﾗ"); // "Gold Token"
-    GfxPrint_SetPos(&printer, 28, 24);
+    GfxPrint_SetPos(&printer, 34, 24);
     GfxPrint_Printf(&printer, "%s", "/4");
 
     *gfxP = GfxPrint_Close(&printer);
@@ -128,7 +128,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, 220);
-    gDPFillRectangle(POLY_OPA_DISP++, 24, 12, 298, 228);
+    gDPFillRectangle(POLY_OPA_DISP++, 75, 12, 351, 228);
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineLERP(POLY_OPA_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
@@ -148,7 +148,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
     // Current Health Quarter (X / 4)
-    KaleidoScope_DrawDigit(play, (gSaveContext.save.info.playerData.health % 0x10) / 4, 194, 15);
+    KaleidoScope_DrawDigit(play, (gSaveContext.save.info.playerData.health % 0x10) / 4, 246, 15);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -171,7 +171,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         spD8[3] -= 10;
     }
 
-    for (i = 0, x = 68; i < 4; i++, x += 10) {
+    for (i = 0, x = 120; i < 4; i++, x += 10) {
         KaleidoScope_DrawDigit(play, spD8[i], x, 15);
     }
 
@@ -183,8 +183,8 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         spD8[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(play, spD8[2], 146, 15);
-    KaleidoScope_DrawDigit(play, spD8[3], 156, 15);
+    KaleidoScope_DrawDigit(play, spD8[2], 198, 15);
+    KaleidoScope_DrawDigit(play, spD8[3], 208, 15);
 
     // Health
     spD8[2] = 0;
@@ -194,12 +194,12 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         spD8[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(play, spD8[2], 172, 15);
-    KaleidoScope_DrawDigit(play, spD8[3], 182, 15);
+    KaleidoScope_DrawDigit(play, spD8[2], 224, 15);
+    KaleidoScope_DrawDigit(play, spD8[3], 234, 15);
 
     // Inventory
     for (slot = 0, i = 0, y = 35; i < 4; i++, y += 15) {
-        for (j = 0, x = 78; j < 6; j++, slot++, x += 26) {
+        for (j = 0, x = 130; j < 6; j++, slot++, x += 26) {
             spD8[2] = 0;
 
             if ((slot <= SLOT_BOW) || (slot == SLOT_SLINGSHOT) || (slot == SLOT_BOMBCHU) || (slot == SLOT_MAGIC_BEAN)) {
@@ -225,7 +225,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     }
 
     // Keys
-    for (spD8[1] = 78, i = 0; i < 17; i++) {
+    for (spD8[1] = 130, i = 0; i < 17; i++) {
         spD8[2] = 0;
 
         if ((spD8[3] = gSaveContext.save.info.inventory.dungeonKeys[i]) >= 0) {
@@ -242,23 +242,23 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     }
 
     // Upgrades
-    for (spD8[1] = 78, i = 0; i < 8; i++, spD8[1] += 12) {
+    for (spD8[1] = 130, i = 0; i < 8; i++, spD8[1] += 12) {
         KaleidoScope_DrawDigit(play, CUR_UPG_VALUE(i), spD8[1], 115);
     }
 
     // Equipment
-    for (spD8[1] = 202, i = 0; i < 4; i++, spD8[1] += 12) {
+    for (spD8[1] = 254, i = 0; i < 4; i++, spD8[1] += 12) {
         KaleidoScope_DrawDigit(play, ALL_EQUIP_VALUE(i), spD8[1], 115);
     }
 
     // Dungeon Items
-    for (spD8[1] = 78, i = 0; i < 12; i++, spD8[1] += 12) {
+    for (spD8[1] = 130, i = 0; i < 12; i++, spD8[1] += 12) {
         spD8[2] = gSaveContext.save.info.inventory.dungeonItems[i] & gEquipMasks[0];
         KaleidoScope_DrawDigit(play, spD8[2], spD8[1], 132);
     }
 
     // Medallions
-    for (spD8[1] = 78, i = 0; i < 6; i++, spD8[1] += 12) {
+    for (spD8[1] = 130, i = 0; i < 6; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST + i)) {
             spD8[2] = 1;
@@ -267,7 +267,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     }
 
     // Spiritual Stones
-    for (spD8[1] = 210, i = 0; i < 3; i++, spD8[1] += 12) {
+    for (spD8[1] = 262, i = 0; i < 3; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD + i)) {
             spD8[2] = 1;
@@ -276,7 +276,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     }
 
     // Songs
-    for (spD8[1] = 78, i = 0; i < 12; i++, spD8[1] += 12) {
+    for (spD8[1] = 130, i = 0; i < 12; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_SONG_MINUET + i)) {
             spD8[2] = 1;
@@ -285,7 +285,7 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
     }
 
     // Other Quest Items
-    for (spD8[1] = 78, i = 0; i < 2; i++, spD8[1] += 12) {
+    for (spD8[1] = 130, i = 0; i < 2; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY + i)) {
             spD8[2] = 1;
@@ -307,13 +307,13 @@ void KaleidoScope_DrawDebugEditor(PlayState* play) {
         spD8[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(play, spD8[1], 145, 185);
-    KaleidoScope_DrawDigit(play, spD8[2], 155, 185);
-    KaleidoScope_DrawDigit(play, spD8[3], 165, 185);
+    KaleidoScope_DrawDigit(play, spD8[1], 197, 185);
+    KaleidoScope_DrawDigit(play, spD8[2], 207, 185);
+    KaleidoScope_DrawDigit(play, spD8[3], 217, 185);
 
     // Heart Pieces (X / 4)
     KaleidoScope_DrawDigit(
-        play, ((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT, 210,
+        play, ((gSaveContext.save.info.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT, 262,
         185);
 
     // Handles navigating the menu to different sections with the D-Pad

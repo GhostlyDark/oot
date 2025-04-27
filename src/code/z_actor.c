@@ -835,7 +835,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
         width = titleCtx->width;
         height = titleCtx->height;
         doubleWidth = width * 2;
-        titleX1 = (titleCtx->x * 4) - (width * 2);
+        titleX1 = (titleCtx->x * 4) - (width * 2) + 104;
         titleX2 = titleX1 + (doubleWidth * 2) - 4;
         titleY1 = (titleCtx->y * 4) - (height * 2);
 

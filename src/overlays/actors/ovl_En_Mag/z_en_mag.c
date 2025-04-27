@@ -404,7 +404,7 @@ BAD_RETURN(s32) EnMag_DrawTextureI8(Gfx** gfxP, void* texture, s16 texWidth, s16
     gDPLoadTextureBlock(gfx++, texture, G_IM_FMT_I, G_IM_SIZ_8b, texWidth, texHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
+    gSPTextureRectangle(gfx++, 26 + rectLeft << 2, rectTop << 2, (26 + rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
                         G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
     *gfxP = gfx;
@@ -427,7 +427,7 @@ BAD_RETURN(s32) EnMag_DrawEffectTextures(Gfx** gfxP, void* maskTex, void* effect
         gDPSetTileSize(gfx++, 1, 0, this->effectScroll & 0x7F, 31 << 2, (31 << 2) + (this->effectScroll & 0x7F));
     }
 
-    gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
+    gSPTextureRectangle(gfx++, 26 + rectLeft << 2, rectTop << 2, (26 + rectLeft + rectWidth) << 2, (rectTop + rectHeight) << 2,
                         G_TX_RENDERTILE, 0, 0, dsdx, dtdy);
 
     *gfxP = gfx;
@@ -470,7 +470,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxP, s16 centerX, s16 centerY, u8* source, u32
         gDPLoadSync(gfx++);
         gDPLoadTile(gfx++, G_TX_LOADTILE, 0, 0, (width - 1) << 2, (textureHeight - 1) << 2);
 
-        gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + (s32)width) << 2,
+        gSPTextureRectangle(gfx++, 26 + rectLeft << 2, rectTop << 2, (26 + rectLeft + (s32)width) << 2,
                             (rectTop + textureHeight) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
         curTexture += textureSize;
@@ -509,7 +509,7 @@ void func_80AEEA48_unknown(Gfx** gfxP, s16 arg1, s16 arg2, u32 arg3) {
         gDPSetEnvColor(gfx++, 48, 36, 146, 255);
         gDPLoadTextureBlock(gfx++, gTitleDiskTex, G_IM_FMT_IA, G_IM_SIZ_8b, 48, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
-        gSPTextureRectangle(gfx++, temp_a3, temp_t0, temp_a3 + (48 << 2), temp_t0 + (16 << 2), G_TX_RENDERTILE, 0, 0,
+        gSPTextureRectangle(gfx++, 26 + temp_a3, temp_t0, 26 + temp_a3 + (48 << 2), temp_t0 + (16 << 2), G_TX_RENDERTILE, 0, 0,
                             (1 << 10), (1 << 10));
         gDPPipeSync(gfx++);
         gDPSetCycleType(gfx++, G_CYC_2CYCLE);
@@ -528,7 +528,7 @@ void EnMag_DrawCharTexture(Gfx** gfxP, u8* texture, s32 rectLeft, s32 rectTop) {
     gDPLoadTextureBlock_4b(gfx++, texture, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-    gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + YREG(2)) << 2, (rectTop + YREG(2)) << 2,
+    gSPTextureRectangle(gfx++, 26 + rectLeft << 2, rectTop << 2, (26 + rectLeft + YREG(2)) << 2, (rectTop + YREG(2)) << 2,
                         G_TX_RENDERTILE, 0, 0, YREG(0), YREG(0));
 
     *gfxP = gfx;
@@ -603,7 +603,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->effectPrimLodFrac != 0) {
         for (k = 0, i = 0, rectTop = 0; i < 3; i++) {
-            for (j = 0, rectLeft = 64 + LOGO_X_SHIFT; j < 3; j++, k++, rectLeft += 64) {
+            for (j = 0, rectLeft = 26 + 64 + LOGO_X_SHIFT; j < 3; j++, k++, rectLeft += 64) {
                 EnMag_DrawEffectTextures(&gfx, effectMaskTextures[k], gTitleFlameEffectTex, 64, 64, 32, 32, rectLeft,
                                          rectTop, 64, 64, 1024, 1024, 1, 1, k, this);
             }
@@ -712,7 +712,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 1);
             gDPSetTileSize(gfx++, 1, this->unk_E30C & 0x7F, this->effectScroll & 0x7F,
                            (this->unk_E30C & 0x7F) + ((32 - 1) << 2), (this->effectScroll & 0x7F) + ((32 - 1) << 2));
-            gSPTextureRectangle(gfx++, 424 + TITLE_X_SHIFT, 576, 424 + TITLE_X_SHIFT + 512, 576 + 64, G_TX_RENDERTILE,
+            gSPTextureRectangle(gfx++, 26 + 424 + TITLE_X_SHIFT, 576, 26 + 424 + TITLE_X_SHIFT + 512, 576 + 64, G_TX_RENDERTILE,
                                 0, 0, 1 << 10, 1 << 10);
         }
     }
@@ -731,12 +731,12 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPLoadTextureBlock(gfx++, gTitleCopyright1998Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, 94 << 2, 198 << 2, 222 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(gfx++, (26 + 94) << 2, 198 << 2, (26 + 222) << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 #elif PLATFORM_GC && OOT_VERSION < GC_US
         gDPLoadTextureBlock(gfx++, gTitleCopyright19982002Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, 78 << 2, 198 << 2, 238 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(gfx++, (26 + 78) << 2, 198 << 2, (26 + 238) << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 #elif PLATFORM_GC && OOT_NTSC
         if (gSaveContext.language == LANGUAGE_JPN) {
             gDPLoadTextureBlock(gfx++, gTitleCopyright19982002Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
@@ -747,17 +747,17 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                                 G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
         }
-        gSPTextureRectangle(gfx++, 78 << 2, 198 << 2, 238 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(gfx++, (26 + 78) << 2, 198 << 2, (26 + 238) << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 #elif PLATFORM_GC && OOT_PAL
         gDPLoadTextureBlock(gfx++, gTitleCopyright19982003Tex, G_IM_FMT_IA, G_IM_SIZ_8b, 160, 16, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, 78 << 2, 198 << 2, 238 << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(gfx++, (26 + 78) << 2, 198 << 2, (26 + 238) << 2, 214 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 #elif PLATFORM_IQUE
         gDPLoadTextureBlock(gfx++, gTitleCopyright19982003IQueTex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 32, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, 94 << 2, 198 << 2, 222 << 2, 230 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(gfx++, (26 + 94) << 2, 198 << 2, (26 + 222) << 2, 230 << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 #endif
     }
 
@@ -774,7 +774,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                           0);
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        rectLeft = VREG(19) + 1;
+        rectLeft = VREG(19) + 1 + 26;
         for (i = 0; i < ARRAY_COUNT(noControllerFontIndices); i++) {
             EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 172);
@@ -788,7 +788,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 100, 255, 255, textAlpha);
 
-        rectLeft = VREG(19);
+        rectLeft = VREG(19) + 26;
         for (i = 0; i < ARRAY_COUNT(noControllerFontIndices); i++) {
             EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 171);
@@ -811,7 +811,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                           0);
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        rectLeft = YREG(7) + 1;
+        rectLeft = YREG(7) + 1 + 26;
         for (i = 0; i < ARRAY_COUNT(pressStartFontIndices); i++) {
             EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 172);
@@ -825,7 +825,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
-        rectLeft = YREG(7);
+        rectLeft = YREG(7) + 26;
         for (i = 0; i < ARRAY_COUNT(pressStartFontIndices); i++) {
             EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 171);
@@ -841,7 +841,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                           0);
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        rectLeft = YREG(7) + 1;
+        rectLeft = YREG(7) + 1 + 26;
 
         rectLeft += YREG(8) * 2;
         EnMag_DrawCharTexture(&gfx, (u8*)gTitlePressCHN, rectLeft, YREG(10) + 172);
@@ -857,7 +857,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
-        rectLeft = YREG(7);
+        rectLeft = YREG(7) + 26;
 
         rectLeft += YREG(8) * 2;
         EnMag_DrawCharTexture(&gfx, (u8*)gTitlePressCHN, rectLeft, YREG(10) + 171);
