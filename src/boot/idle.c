@@ -97,7 +97,7 @@ void Idle_ThreadEntry(void* arg) {
     switch (osTvType) {
         case OS_TV_NTSC:
             gViConfigModeType = OS_VI_NTSC_LAN1;
-            gViConfigMode = osViModeNtscLan1;
+            gViConfigMode = osViModeNtscHan1;
             break;
 
         case OS_TV_MPAL:
@@ -119,7 +119,7 @@ void Idle_ThreadEntry(void* arg) {
         case OS_TV_PAL:
         case OS_TV_NTSC:
             gViConfigModeType = OS_VI_NTSC_LAN1;
-            gViConfigMode = osViModeNtscLan1;
+            gViConfigMode = osViModeNtscHan1;
             break;
 
         case OS_TV_MPAL:

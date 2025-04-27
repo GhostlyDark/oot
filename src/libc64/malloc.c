@@ -146,7 +146,7 @@ void* SystemArena_Calloc(u32 num, u32 size) {
 
 #if PLATFORM_GC && DEBUG_FEATURES
 void SystemArena_Display(void) {
-    PRINTF(T("システムヒープ表示\n", "System heap display\n"));
+    //PRINTF(T("システムヒープ表示\n", "System heap display\n"));
     __osDisplayArena(&gSystemArena);
 }
 #endif

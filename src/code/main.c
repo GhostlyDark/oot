@@ -77,6 +77,11 @@ AudioMgr sAudioMgr;
 OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
+OSTime gLastOSTime = 0;
+float gFrameTime = 0.0f;
+u16 gFrames = 0;
+u16 gFPS = 0;
+
 #if DEBUG_FEATURES
 void Main_LogSystemHeap(void) {
     PRINTF_COLOR_GREEN();

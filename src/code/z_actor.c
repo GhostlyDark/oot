@@ -784,7 +784,7 @@ void TitleCard_InitBossName(PlayState* play, TitleCardContext* titleCtx, void* t
                             u8 height) {
     titleCtx->texture = texture;
     titleCtx->x = x;
-    titleCtx->y = y;
+    titleCtx->y = y + 120;
     titleCtx->width = width;
     titleCtx->height = height;
     titleCtx->durationTimer = 80;
@@ -866,7 +866,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
                             width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, titleX1, titleY1, titleX2, titleY2 - 1, G_TX_RENDERTILE, 0, 0, 1 << 10,
+        gSPTextureRectangle(OVERLAY_DISP++, 640 + titleX1, 480 + titleY1, 640 + titleX2, 480 + titleY2 - 1, G_TX_RENDERTILE, 0, 0, 1 << 10,
                             1 << 10);
 
         height = titleCtx->height - height;
@@ -877,7 +877,7 @@ void TitleCard_Draw(PlayState* play, TitleCardContext* titleCtx) {
                                 G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                 G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, titleX1, titleY2, titleX2, titleY2 + (height * 4) - 1, G_TX_RENDERTILE,
+            gSPTextureRectangle(OVERLAY_DISP++, 640 + titleX1, 480 + titleY2, 640 + titleX2, 480 + titleY2 + (height * 4) - 1, G_TX_RENDERTILE,
                                 0, 0, 1 << 10, 1 << 10);
         }
 

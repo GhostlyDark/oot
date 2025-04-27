@@ -819,7 +819,7 @@ void PreRender_ApplyFilters(PreRender* this) {
                 cvg++;
                 if (cvg != 8) {
                     // If this pixel has only partial coverage, perform the Video Filter interpolation on it
-                    PreRender_AntiAliasFilter(this, x, y);
+                    //PreRender_AntiAliasFilter(this, x, y);
                 }
             }
         }

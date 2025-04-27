@@ -29,6 +29,9 @@
 #include "assets/textures/do_action_static/do_action_static.h"
 #include "assets/textures/icon_item_static/icon_item_static.h"
 
+#include "libu64/gfxprint.h"
+#include "buffers.h"
+
 typedef struct RestrictionFlags {
     /* 0x00 */ u8 sceneId;
     /* 0x01 */ u8 flags1;
@@ -3183,6 +3186,31 @@ void func_8008A994(InterfaceContext* interfaceCtx) {
     View_ApplyOrthoToOverlay(&interfaceCtx->view);
 }
 
+void FPS_draw(PlayState* play){
+	GfxPrint printer;
+	Gfx* gfx;
+
+	OPEN_DISPS(play->state.gfxCtx, "../z_parameter.c", 3061);
+	gfx = POLY_OPA_DISP + 1;
+	gSPDisplayList(OVERLAY_DISP++, gfx);
+
+	GfxPrint_Init(&printer);
+	GfxPrint_Open(&printer, gfx);
+
+	GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+	GfxPrint_SetPos(&printer, 3, 7);
+	GfxPrint_Printf(&printer, "FPS = %d", gFPS);
+
+	gfx = GfxPrint_Close(&printer);
+	GfxPrint_Destroy(&printer);
+
+	gSPEndDisplayList(gfx++);
+	gSPBranchList(POLY_OPA_DISP, gfx);
+	POLY_OPA_DISP = gfx;
+
+	CLOSE_DISPS(play->state.gfxCtx, "../z_parameter.c", 3079);
+}
+
 void Interface_Draw(PlayState* play) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
@@ -3225,13 +3253,14 @@ void Interface_Draw(PlayState* play) {
         Interface_InitVertices(play);
         func_8008A994(interfaceCtx);
         Health_DrawMeter(play);
+        FPS_draw(play);
 
         Gfx_SetupDL_39Overlay(play->state.gfxCtx);
 
         // Rupee Icon
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 100, interfaceCtx->magicAlpha);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 80, 0, 255);
-        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gRupeeCounterIconTex, 16, 16, 26, 206, 16, 16, 1 << 10, 1 << 10);
+        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gRupeeCounterIconTex, 16, 16, 26, 428, 16, 16, 1 << 10, 1 << 10);
 
         switch (play->sceneId) {
             case SCENE_FOREST_TEMPLE:
@@ -3253,7 +3282,7 @@ void Interface_Draw(PlayState* play) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 230, 255, interfaceCtx->magicAlpha);
                     gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 20, 255);
-                    OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gSmallKeyCounterIconTex, 16, 16, 26, 190, 16, 16,
+                    OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gSmallKeyCounterIconTex, 16, 16, 26, 408, 16, 16,
                                                   1 << 10, 1 << 10);
 
                     // Small Key Counter
@@ -3276,13 +3305,13 @@ void Interface_Draw(PlayState* play) {
                     if (interfaceCtx->counterDigits[2] != 0) {
                         OVERLAY_DISP = Gfx_TextureI8(
                             OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[2])), 8, 16,
-                            svar3, 190, 8, 16, 1 << 10, 1 << 10);
+                            svar3, 408, 8, 16, 1 << 10, 1 << 10);
                         svar3 += 8;
                     }
 
                     OVERLAY_DISP = Gfx_TextureI8(OVERLAY_DISP,
                                                  ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[3])),
-                                                 8, 16, svar3, 190, 8, 16, 1 << 10, 1 << 10);
+                                                 8, 16, svar3, 408, 8, 16, 1 << 10, 1 << 10);
                 }
                 break;
             default:
@@ -3326,7 +3355,7 @@ void Interface_Draw(PlayState* play) {
         for (svar1 = 0, svar3 = 42; svar1 < svar4; svar1++, svar2++, svar3 += 8) {
             OVERLAY_DISP =
                 Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * interfaceCtx->counterDigits[svar2])), 8,
-                              16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
+                              16, svar3, 428, 8, 16, 1 << 10, 1 << 10);
         }
 
         Magic_DrawMeter(play);

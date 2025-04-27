@@ -341,7 +341,7 @@ void GameState_Update(GameState* gameState) {
         gfxCtx->yScale = gViConfigYScale;
 
         if (SREG(63) == 6 || (SREG(63) == 2u && (u32)osTvType == OS_TV_NTSC)) {
-            gfxCtx->viMode = &osViModeNtscLan1;
+            gfxCtx->viMode = &osViModeNtscHan1;
             gfxCtx->yScale = 1.0f;
         }
 

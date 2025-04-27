@@ -1137,7 +1137,7 @@ void Fault_DisplayFrameBuffer(void) {
     void* fb;
 
     osViSetYScale(1.0f);
-    osViSetMode(&osViModeNtscLan1);
+    //osViSetMode(&osViModeNtscLan1);
     osViSetSpecialFeatures(OS_VI_GAMMA_OFF | OS_VI_DITHER_FILTER_ON);
     osViBlack(false);
 
@@ -1243,7 +1243,7 @@ void Fault_ThreadEntry(void* arg) {
         } else {
             // Draw error bar signifying the crash screen is available
             Fault_DrawCornerRec(GPACK_RGBA5551(255, 0, 0, 1));
-            Fault_WaitForButtonCombo();
+            //Fault_WaitForButtonCombo();
         }
 
         // Set auto-scrolling and default colors

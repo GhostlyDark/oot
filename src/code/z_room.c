@@ -46,6 +46,7 @@ Gfx D_801270B0[] = {
 void Room_DrawNormal(PlayState* play, Room* room, u32 flags);
 void Room_DrawImage(PlayState* play, Room* room, u32 flags);
 void Room_DrawCullable(PlayState* play, Room* room, u32 flags);
+PlayState* gplay;
 
 void (*sRoomDrawHandlers[ROOM_SHAPE_TYPE_MAX])(PlayState* play, Room* room, u32 flags) = {
     Room_DrawNormal,   // ROOM_SHAPE_TYPE_NORMAL
@@ -292,7 +293,7 @@ s32 Room_DecodeJpeg(void* data) {
         PRINTF(T("ワークバッファアドレス（Ｚバッファ）%08x\n", "Work buffer address (Z buffer) %08x\n"), gZBuffer);
 
         time = osGetTime();
-        if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+        if (!Jpeg_Decode(data, jpeg_buffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             PRINTF(T("成功…だと思う。 time = %6.3f ms \n", "Success... I think. time = %6.3f ms\n"),
@@ -302,7 +303,7 @@ s32 Room_DecodeJpeg(void* data) {
             PRINTF(T("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n",
                      "If the original buffer size isn't at least 150kB, it will be out of control.\n"));
 
-            bcopy(gZBuffer, data, sizeof(u16[SCREEN_HEIGHT][SCREEN_WIDTH]));
+            bcopy(jpeg_buffer, data, sizeof(u16[240][320]));
         } else {
             PRINTF(T("失敗！なんで〜\n", "Failure! Why is it ~\n"));
         }
@@ -342,18 +343,26 @@ void Room_DrawBackground2D(Gfx** gfxP, void* tex, void* tlut, u16 width, u16 hei
     }
 
     if ((fmt == G_IM_FMT_RGBA) && !R_ROOM_BG2D_FORCE_SCALEBG) {
-        bg->b.frameW = width * (1 << 2);
-        bg->b.frameH = height * (1 << 2);
-        guS2DInitBg(bg);
-        gDPSetOtherMode(gfx++, tlutMode | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
-                        G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-        gSPBgRectCopy(gfx++, bg);
+        bg->s.frameW = width * 8;
+        bg->s.frameH = height * 8;
+        bg->s.scaleW = 512;
+        bg->s.scaleH = 512;
+        bg->s.imageYorig = bg->b.imageY;
+        gDPSetOtherMode(gfx++,
+                        tlutMode | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
+                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+                        G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
+                            GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
+                            GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
+        gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
+        gSPObjRenderMode(gfx++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);        
+		gSPBgRect1Cyc(gfx++, bg);
 
     } else {
-        bg->s.frameW = width * (1 << 2);
-        bg->s.frameH = height * (1 << 2);
-        bg->s.scaleW = 1 << 10;
-        bg->s.scaleH = 1 << 10;
+        bg->s.frameW = width * 8;
+        bg->s.frameH = height * 8;
+        bg->s.scaleW = 512;
+        bg->s.scaleH = 512;
         bg->s.imageYorig = bg->b.imageY;
         gDPSetOtherMode(gfx++,
                         tlutMode | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TL_TILE |
@@ -395,6 +404,7 @@ void Room_DrawImageSingle(PlayState* play, Room* room, u32 flags) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 628);
 
+    gplay = play;
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     roomShape = &room->roomShape->image.single;
@@ -499,6 +509,7 @@ void Room_DrawImageMulti(PlayState* play, Room* room, u32 flags) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 752);
 
+    gplay = play;
     activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     roomShape = &room->roomShape->image.multi;

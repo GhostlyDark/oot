@@ -1377,12 +1377,12 @@ void Play_Draw(PlayState* this) {
             // The zbuffer must then stay untouched until unpausing
             this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
             this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-            PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
+            //PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
             if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
                 this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
+                //PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
             } else {
                 gTransitionTileState = TRANS_TILE_PROCESS;
             }

@@ -152,7 +152,7 @@ typedef struct InterfaceContext {
 /**
  * Button HUD positions and colors
  */
-#define A_BUTTON_X 186
+#define A_BUTTON_X 506
 #define A_BUTTON_Y 9
 
 #if !PLATFORM_GC
@@ -165,7 +165,7 @@ typedef struct InterfaceContext {
 #define A_BUTTON_B 50
 #endif
 
-#define B_BUTTON_X 160
+#define B_BUTTON_X 480
 #define B_BUTTON_Y 17
 
 #if !PLATFORM_GC
@@ -178,16 +178,16 @@ typedef struct InterfaceContext {
 #define B_BUTTON_B 30
 #endif
 
-#define C_LEFT_BUTTON_X 227
+#define C_LEFT_BUTTON_X 547
 #define C_LEFT_BUTTON_Y 18
 
-#define C_DOWN_BUTTON_X 249
+#define C_DOWN_BUTTON_X 569
 #define C_DOWN_BUTTON_Y 34
 
-#define C_RIGHT_BUTTON_X 271
+#define C_RIGHT_BUTTON_X 591
 #define C_RIGHT_BUTTON_Y 18
 
-#define C_UP_BUTTON_X 254
+#define C_UP_BUTTON_X 574
 #define C_UP_BUTTON_Y 16
 
 #if !PLATFORM_GC
