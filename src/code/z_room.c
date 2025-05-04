@@ -293,7 +293,7 @@ s32 Room_DecodeJpeg(void* data) {
         PRINTF(T("ワークバッファアドレス（Ｚバッファ）%08x\n", "Work buffer address (Z buffer) %08x\n"), gZBuffer);
 
         time = osGetTime();
-        if (!Jpeg_Decode(data, jpeg_buffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+        if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             PRINTF(T("成功…だと思う。 time = %6.3f ms \n", "Success... I think. time = %6.3f ms\n"),
@@ -303,7 +303,7 @@ s32 Room_DecodeJpeg(void* data) {
             PRINTF(T("元のバッファのサイズが150キロバイト無いと暴走するでしょう。\n",
                      "If the original buffer size isn't at least 150kB, it will be out of control.\n"));
 
-            bcopy(jpeg_buffer, data, sizeof(u16[240][320]));
+            bcopy(gZBuffer, data, sizeof(u16[240][320]));
         } else {
             PRINTF(T("失敗！なんで〜\n", "Failure! Why is it ~\n"));
         }

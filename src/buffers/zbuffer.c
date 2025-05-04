@@ -3,4 +3,3 @@
 #include "ultra64/ultratypes.h"
 
 ALIGNED(64) u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH];
-ALIGNED(64) u16 jpeg_buffer[240][320];

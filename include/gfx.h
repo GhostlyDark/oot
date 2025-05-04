@@ -17,7 +17,7 @@ typedef struct GfxPool {
     /* 0x00000 */ u16 headMagic; // GFXPOOL_HEAD_MAGIC
     /* 0x00008 */ Gfx polyOpaBuffer[0x27E0];
     /* 0x0BF08 */ Gfx polyXluBuffer[0xA00];
-    /* 0x0FF08 */ Gfx overlayBuffer[0xA00];
+    /* 0x0FF08 */ Gfx overlayBuffer[0xD00];
     /* 0x11F08 */ Gfx workBuffer[0x80];
     /* 0x11308 */ Gfx unusedBuffer[0x20];
     /* 0x12408 */ u16 tailMagic; // GFXPOOL_TAIL_MAGIC

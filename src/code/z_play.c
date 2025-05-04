@@ -1243,7 +1243,7 @@ void Play_Draw(PlayState* this) {
             // content and can be used by `PreRender_ApplyFilters` below.
             Sched_FlushTaskQueue();
 
-            PreRender_ApplyFilters(&this->pauseBgPreRender);
+            //PreRender_ApplyFilters(&this->pauseBgPreRender);
 
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
         } else if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_MAX) {
@@ -1377,12 +1377,12 @@ void Play_Draw(PlayState* this) {
             // The zbuffer must then stay untouched until unpausing
             this->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
             this->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
-            //PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
+            PreRender_SaveFramebuffer(&this->pauseBgPreRender, &gfxP);
             if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_SETUP) {
                 this->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
-                //PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
+                PreRender_DrawCoverage(&this->pauseBgPreRender, &gfxP);
 
-                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
+                R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_PROCESS;
             } else {
                 gTransitionTileState = TRANS_TILE_PROCESS;
             }
